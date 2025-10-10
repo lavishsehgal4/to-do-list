@@ -1,0 +1,110 @@
+.header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.heading h2{
+    font-size: 32px;
+  font-weight: 700;
+  color: #2d3748;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.heading h2::before {
+  content: "📋";
+  font-size: 28px;
+}
+
+.TakingInput {
+    display: flex;
+    width: 100%;
+    gap: 12px;
+}
+
+.addTaskInput {
+  flex: 1;
+  padding: 14px 20px;
+  font-size: 15px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  outline: none;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.addTaskInput::placeholder {
+  color: #a0aec0;
+}
+
+.addTaskInput:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+button.addTaskInput {
+  flex: 0 0 auto;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+button.addTaskInput:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+  background: linear-gradient(135deg, #ff7a4d 0%, #f89d35 100%);
+}
+
+button.addTaskInput:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .heading h2 {
+    font-size: 28px;
+  }
+  
+  .heading h2::before {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    gap: 20px;
+  }
+  
+  .heading h2 {
+    font-size: 24px;
+  }
+  
+  .TakingInput {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  button.addTaskInput {
+    width: 100%;
+  }
+  
+  .addTaskInput {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+}
