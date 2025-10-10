@@ -3,11 +3,15 @@ import './Header.css'
 function Header(props) {
     const inputRef=useRef(null);
     const[task,changeTask]=useState("");
+    
     const handleAdd=()=>{
         if(task.length===0){
             return
         }
+          
        props.handleAdd(task);
+        changeTask(''); 
+       
     }
     useEffect(()=>{
         inputRef.current.focus()

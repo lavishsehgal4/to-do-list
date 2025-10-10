@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Tasks.css'
 function Tasks(props) {
     const [tasks,updateTask]=useState([]);
-
+    
     const deleteTask=(id)=>{
       updateTask(prev => prev.filter(task => task.id !== id));
     }
@@ -24,6 +24,12 @@ function Tasks(props) {
           </div>
         ))
       }
+       {/* Show empty message only if tasks array is empty */}
+      {tasks.length === 0 && (
+        <div className='empty-state'>
+          <p>No tasks yet! Add one above 📝</p>
+        </div>
+      )}
     </main>
   )
 }
