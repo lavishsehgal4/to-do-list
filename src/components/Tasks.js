@@ -19,7 +19,10 @@ function Tasks(props) {
           <div className='task-item' key={task.id}>
             <input type='checkbox' className='task-checkbox' />
             <span className='task-text'>{task.task}</span>
+            <div className='task-actions'>
+              <button className='edit-btn'>✏️</button>
             <button className='delete-btn' onClick={() => deleteTask(task.id)} >🗑️</button>
+            </div>
             
           </div>
         ))

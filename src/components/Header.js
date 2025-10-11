@@ -13,6 +13,11 @@ function Header(props) {
         changeTask(''); 
        
     }
+    const handleKeyDown=(e)=>{
+        if(e.key==='Enter'){
+            handleAdd();
+        }
+    }
     useEffect(()=>{
         inputRef.current.focus()
     },[])
@@ -26,7 +31,8 @@ function Header(props) {
         value={task}
          ref={inputRef} 
          placeholder='enter task to add'
-         onChange={(e)=>changeTask(e.target.value)}></input>
+         onChange={(e)=>changeTask(e.target.value)}
+         onKeyDown={handleKeyDown}></input>
         <button className='addTaskInput' onClick={handleAdd}>Add Task</button>
         </div>
     </header>
