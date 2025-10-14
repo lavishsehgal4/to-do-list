@@ -1,28 +1,32 @@
 
-import { useState,useEffect } from 'react';
 import './App.css';
 import Header from './components/Header';
 import Tasks from './components/Tasks';
+import TaskEditingModel from './components/TaskEditingModel';
+import { useState } from 'react';
 
 
 function App() {
-  const[task,updateTask]=useState({id:-1,task:''})
-  const addTask=(e)=>{
-    const prevId=task.id;
-    updateTask({id:prevId+1,task:e});
-    
+  const [tasks,setTasks]=useState([]);
+
+  const addTask = ({task, date, completed}) => {
+  const newTask = {
+    id: Date.now() + Math.random(),
+    task: task,
+    date: date,
+    completed: completed
   }
-
-  useEffect(() => {
-  console.log("Tasks updated:", task);
-}, [task]);
-
+  setTasks([...tasks, newTask]);
+  console.log(newTask);
+}
   return (
     <div className="app-container">
+      <TaskEditingModel />
         <div className='todoCard' >
-          <Header handleAdd={addTask}/>
-          <Tasks newTask={task.id===-1?null:task}/>
+          <Header handleAddTask={addTask} />
+          <Tasks />
         </div>
+        
     </div>
   );
 }
