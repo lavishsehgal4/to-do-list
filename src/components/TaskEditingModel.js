@@ -2,14 +2,28 @@ import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom';
 import './Modal.css'
 
-function TaskEditingModel() {
-    
+function TaskEditingModel({isModalOpen,handleModelToggle,data,update}) {
+    const [taskTitle, setTaskTitle] = useState('');
+    const [taskDescription, setTaskDescription] = useState('');
+    const onSubmit=()=>{
+      update({id:data.id,
+        task:taskTitle,
+        notes:taskDescription
+      })
+      handleModelToggle(false);
+    }
+     useEffect(() => {
+        if (data) {
+            setTaskTitle(data.task || '');
+            setTaskDescription(data.notes || ''); // if you have description field
+        }
+    }, [data]);
   return ReactDOM.createPortal(
-    <div className='modal-overlay hidden'>
+    <div className={isModalOpen?'modal-overlay':'modal-overlay hidden'}>
       <div className='modal-container'>
         <div className='modal-header'>
           <h3>Edit Task</h3>
-          <button className='close-btn' >✕</button>
+          <button className='close-btn' onClick={()=>{handleModelToggle(false)}}>✕</button>
         </div>
         
         <div className='modal-body'>
@@ -19,7 +33,8 @@ function TaskEditingModel() {
               type='text' 
               className='modal-input' 
               placeholder='Enter task title'
-              defaultValue= {`lavish`}
+              value={taskTitle}
+              onChange={(e) => setTaskTitle(e.target.value)}
               
             />
           </div>
@@ -28,7 +43,8 @@ function TaskEditingModel() {
             <label>Description / Notes</label>
             <textarea 
               className='modal-textarea' 
-              
+               value={taskDescription}
+              onChange={(e) => setTaskDescription(e.target.value)}
               
               placeholder='Add description or notes...'
               rows='6'
@@ -37,8 +53,8 @@ function TaskEditingModel() {
         </div>
         
         <div className='modal-footer'>
-          <button className='cancel-btn' >Cancel</button>
-          <button className='save-btn'>Save Changes</button>
+          <button className='cancel-btn' onClick={()=>{handleModelToggle(false)}} >Cancel</button>
+          <button className='save-btn' onClick={onSubmit}>Save Changes</button>
         </div>
       </div>
     </div>,

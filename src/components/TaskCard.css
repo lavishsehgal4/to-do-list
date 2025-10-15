@@ -1,4 +1,5 @@
 .task-item {
+  position: relative; 
   display: flex;
   align-items: center;
   gap: 15px;
@@ -14,6 +15,49 @@
   transform: translateX(5px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-color: #cbd5e0;
+}
+
+    .task-timer {
+  position: absolute;
+  top: 1px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: #f0f4ff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.timer-icon {
+  font-size: 8px;
+}
+
+.timer-text {
+  white-space: nowrap;
+}
+
+/* Color coding based on urgency - add these classes dynamically later */
+.task-timer.urgent {
+  background: #fee;
+  border-color: #fcc;
+  color: #c53030;
+}
+
+.task-timer.warning {
+  background: #fffaf0;
+  border-color: #fbd38d;
+  color: #c05621;
+}
+
+.task-timer.safe {
+  background: #f0fff4;
+  border-color: #9ae6b4;
+  color: #2f855a;
 }
 
 .task-checkbox {
@@ -87,7 +131,12 @@
   .task-item {
     padding: 14px 16px;
   }
-
+  .task-timer{
+    top: 0px;
+  }
+  .timer-icon {
+  font-size: 6px;
+}
   .task-text {
     font-size: 15px;
   }
@@ -101,7 +150,13 @@
   .task-actions {
     gap: 6px;
   }
-
+  .task-timer{
+    top: 0px;
+    height:18px;
+  }
+  .timer-icon {
+  font-size: 2px;
+}
   .task-item {
     padding: 12px 14px;
     gap: 12px;
