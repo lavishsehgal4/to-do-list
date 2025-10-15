@@ -1,29 +1,22 @@
 import React from 'react'
 import './Tasks.css'
-function Tasks() {
-    
+import TaskCard from './TaskCard'
+function Tasks(props) {
+    const {toDoTasks}=props
  
   return (
     <main className='tasks-container' >
-      {/* {
-        tasks.map(task=>(
-          <div className='task-item' key={task.id}>
-            <input type='checkbox' className='task-checkbox' />
-            <span className='task-text'>{task.task}</span>
-            <div className='task-actions'>
-              <button className='edit-btn' onClick={()=>openModal(task.id)} >✏️</button>
-            <button className='delete-btn' onClick={() => deleteTask(task.id)} >🗑️</button>
-            </div>
-            
-          </div>
+      {
+        toDoTasks.map(task=>(
+          <TaskCard key={task.id}>{task.task}</TaskCard>
         ))
-      } */}
+      }
        {/* Show empty message only if tasks array is empty */}
-      {/* {tasks.length === 0 && (
+      {toDoTasks.length === 0 && (
         <div className='empty-state'>
           <p>No tasks yet! Add one above 📝</p>
         </div>
-      )} */}
+      )}
     </main>
   )
 }

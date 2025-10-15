@@ -24,7 +24,7 @@ function App() {
       <TaskEditingModel />
         <div className='todoCard' >
           <Header handleAddTask={addTask} />
-          <Tasks />
+          <Tasks toDoTasks={tasks}/>
         </div>
         
     </div>
