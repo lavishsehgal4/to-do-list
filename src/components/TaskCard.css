@@ -19,9 +19,7 @@
 }
 
     .task-timer {
-  position: absolute;
-  top: 1px;
-  right: 8px;
+  
   display: flex;
   align-items: center;
   gap: 4px;
@@ -35,7 +33,7 @@
 }
 
 .timer-icon {
-  font-size: 8px;
+  font-size: 12px;
 }
 
 .timer-text {
@@ -181,6 +179,9 @@
   border-left: 4px solid #667eea;
   border-radius: 6px;
   box-shadow: 0 2px 4px rgba(102, 126, 234, 0.1);
+  word-break: break-word;     
+  max-width: 100%;             
+  overflow-wrap: break-word;
 }
 /* Responsive Design */
 @media (max-width: 768px) {
