@@ -1,15 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import './TaskCard.css'
+
+  function hasDatePassed(year, month, day) {
+  const now = new Date();
+  const target = new Date(year, month - 1, day, 23, 59, 59); // Set to end of day
+
+  return now.getTime() > target.getTime(); // true only if past end of day
+}
+
   function getTimeLeft(year, month, day) {
   const now = Date.now();
-  const target = new Date(year, month - 1, day).getTime();
+  const target = new Date(year, month - 1, day, 23, 59, 59, 999).getTime();
+
 
   let diff = target - now;
-
+    
   if (diff <= 0) {
-    return { years: 0, months: 0, days: 0, message: "Date already passed!" };
+    
+    return { years: -1, months: -1, days: -1, message: "Date already passed!" };
+    
   }
 
+  if(diff>0 && diff<86400000){
+    return {years:0,months:0,days:0};
+  }
   // Milliseconds in each unit
   const msInDay = 1000 * 60 * 60 * 24;
   const msInMonth = msInDay * 30.44; // average month length
@@ -43,29 +57,105 @@ import './TaskCard.css'
   }
 
 
+    const displayTimeLeft=(year_,month_,date_)=>{
+      
+      if(hasDatePassed(year_,month_,date_)){
+        return "time passed"
+      }else{
+        const{days,months,years}=getTimeLeft(year_,month_,date_);
+        
+          if(days==0 && months==0 && years==0){
+              return 'time left'
+          }else{
+        const timeLeft=getFormatedTime(years,months,days);
+        return timeLeft;
+          }
+      }
+      
+    }
+
+    function getIntervalDuration(year, month, day) {
+  const now = new Date();
+  const target = new Date(year, month - 1, day, 23, 59, 59, 999);
+  
+  const diffMs = target.getTime() - now.getTime();
+  const totalHours = diffMs / (1000 * 60 * 60);
+  
+  if (totalHours > 1) {
+    return 3600000; // 60 seconds interval
+  } else if (totalHours > 0) {
+    return 1000; // 1 second interval
+  } else {
+    return null; // time passed, don't set interval
+  }
+}
+function getTimeRemainingToday() {
+  const now = new Date();
+
+  // Create a Date object for the start of *tomorrow*
+  const tomorrow = new Date(now);
+  tomorrow.setHours(24, 0, 0, 0); // midnight of next day
+
+  // Difference in milliseconds
+  const diff = tomorrow - now;
+
+  // Convert to hours, minutes, seconds
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+  return { hours, minutes, seconds };
+}
+
 function TaskCard(props) {
     const {children,task,onDelete,onEdit,onToggle}=props;
     const [showDetails, setShowDetails] = useState(false);
     const [timer,setTimer]=useState('');
+    const [urgency,setUrgency]=useState('safe');
+    const [intervalType, setIntervalType] = useState('hours');
 
-    const displayTimeLeft=(year_,month_,date_)=>{
-      
-      const{days,months,years}=getTimeLeft(year_,month_,date_);
-      
+    
+    useEffect(() => {
+  const [year, month, day] = task.date.split('-');
+  
+  const timeLeft=displayTimeLeft(year, month, day);
+  
+  let interval;
 
-      console.log(years,months,days)
-      if(years==0 && months==0 && days==0){
+  if(timeLeft==='time left'){
+    
+    const intervalDuration = getIntervalDuration(year, month, day);
+    console.log(intervalDuration);
+    if (intervalDuration !== null) {
+      
+      setUrgency(intervalDuration===1000?'urgent':'warning');
+      
+     interval= setInterval(() => {
+      console.log("ibht");
+      const {hours,minutes,seconds}=getTimeRemainingToday();
+      
+      const display=hours!==0?`${hours} hr remaining`:`${hours}:${minutes}:${seconds}`
+      setTimer(display);
+    }, intervalDuration); 
+  }
+  else{
+    setUrgency("Overdue");
+  }
 
-      }else{
-        const timeLeft=getFormatedTime(years,months,days);
-        return timeLeft;
-      }
-      
-    }
-    useEffect(()=>{
-      setTimer(displayTimeLeft(...task.date.split('-')))
-      
-    },[])
+  }else if(timeLeft==='time passed'){
+    setTimer('Overdue');
+  }else{
+    setTimer(displayTimeLeft(year, month, day));
+    setUrgency('safe');
+  }
+  
+  
+  return () => {
+    clearInterval(interval);
+  };
+  
+  
+}, [intervalType]);
   return (
     <>
     <div className='task-item' onClick={() => setShowDetails(!showDetails)}>
@@ -79,7 +169,7 @@ function TaskCard(props) {
   }}
       />
       <span className='task-text'>{children}</span>
-      <div className='task-timer'>
+      <div className={`task-timer ${urgency}`}>
             <span className='timer-icon'>⏰</span>
             <span className='timer-text'>{timer}</span>
         </div>

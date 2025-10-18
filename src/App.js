@@ -32,15 +32,18 @@ function App() {
     setModal(isOpen);
   }
   const getData=({id,task,notes})=>{
+    console.log(id,task,notes);
     setModalData({id:id,task:task,notes:notes})
   }
   const updatingTaskAndNote=({id,task,notes})=>{
+    console.log(id,task,notes);
     for(let i=0;i<tasks.length;i++){
-      if(id===tasks[i].id){
+      if((Number)(id)===(Number)(tasks[i].id)){
         tasks[i].task=task
         tasks[i].notes=notes
+        break;
       }
-      break;
+      
     }
     setTasks(tasks);
   }
